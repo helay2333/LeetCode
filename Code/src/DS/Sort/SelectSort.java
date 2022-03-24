@@ -4,27 +4,26 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
-public class BubbleSort {
-    //O(n^2)
-    public static void bubblesort(int[] arr){
+public class SelectSort {
+    public static void SelectSort(int[] arr){
+        int minIndex = 0;
+        int min = 0;
         for(int i = 0; i < arr.length - 1; i++) {
-            boolean flag = false;//重置flag
-            for(int j = 0; j < arr.length - 1 - i; j++) {
-                if(arr[j+1] < arr[j]) {
-                    int tmp = arr[j+1];
-                    arr[j+1] = arr[j];
-                    arr[j] = tmp;
-                    flag = true;//经过这里了，那么此时必然还不是有序的
+            min = arr[i];
+            minIndex = i;
+            for(int j = i + 1; j < arr.length - 1; j++){
+                if(arr[j] < min) {
+                    min = arr[j];
+                    minIndex = j;
                 }
             }
-//            System.out.println("第"+(i+1)+"次排序");
-//            System.out.println(Arrays.toString(arr));
-            if(!flag){
-                break;
+            if(minIndex != i) {
+                arr[minIndex] = arr[i];
+                arr[i] = min;
             }
         }
     }
-    //10秒
+    //3秒
     public static void main(String[] args) {
         int[] arr = new int[80000];
         for(int i =0; i < 80000; i++) {
@@ -34,15 +33,12 @@ public class BubbleSort {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String data1Str = simpleDateFormat.format(date1);
         System.out.println("排序前时间为"+data1Str);
-        bubblesort(arr);
+        SelectSort(arr);
         Date date2 = new Date();
         String data2Str = simpleDateFormat.format(date2);
         System.out.println("排序后时间为"+data2Str);
-
-//        int[] arr = {3,9,-1,10,-2};
-//        int[] arr = {1,2,3,4,5,6};
-//        System.out.println(Arrays.toString(arr));
-//        bubblesort(arr);
+//        int[] arr = {3,2,1,6};
+//        SelectSort(arr);
 //        System.out.println(Arrays.toString(arr));
     }
 }
