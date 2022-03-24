@@ -5,8 +5,10 @@ public class test0323 {
         int[] array;
         array = new int[10];
 //        for(int i = 0; i < array.length; i++){
-//            System.out.println(array[i]);
+//            System.out.p.rintln(array[i]);
 //        }
+
+
         //字符串
         String name = "zhouyu";
         System.out.println(name.length());
