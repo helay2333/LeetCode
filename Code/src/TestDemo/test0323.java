@@ -1,9 +1,18 @@
 package TestDemo;
 
+import java.util.Arrays;
+
 public class test0323 {
     public static void main(String[] args) {
         int[] array;
+        array = new int[]{10,20,30};
+        System.out.println(array);
+        System.out.println(Arrays.toString(array));
+
         array = new int[10];
+        System.out.println(array);
+
+        System.out.println(Arrays.toString(array));
 //        for(int i = 0; i < array.length; i++){
 //            System.out.p.rintln(array[i]);
 //        }

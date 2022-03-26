@@ -23,6 +23,7 @@ public class DoubleLinkedList {
             System.out.println("链表为空");
             return;
         }
+
         DoubleNode tmp = head.next;
         while(tmp.next!=null) {
             System.out.println(tmp.data+" "+tmp.name+" "+tmp.nickname);
