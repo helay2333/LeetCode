@@ -20,6 +20,7 @@ public class InsertSort {
         for(int i = 0; i < arr.length - 1; i++) {
             int insertVal = arr[i + 1];
             int insertIndex = i;
+            //这一步是将大于后面这个要插入的数值全部往后移，然后我们保存的这个insertVal就放到她应该在的位置了
             while(insertIndex >=0 && insertVal < arr[insertIndex]) {
                 arr[insertIndex+1] = arr[insertIndex];
                 insertIndex--;
