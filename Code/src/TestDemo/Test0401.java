@@ -14,6 +14,11 @@ public class Test0401 {
         p.showAge();
         p.study();
         p.addAge(12);
+        p.showAge();
+        System.out.println("======");
+        Circle c = new Circle();
+        c.radius = 1;
+        System.out.println(c.getArea());
     }
 }
 
@@ -34,5 +39,13 @@ class Person{
     public int addAge(int i) {
         age+=i;
         return age;
+    }
+}
+//圆
+class Circle{
+    double radius;
+    public double getArea(){
+        //注意此处就不要参数了
+        return 3.14*radius*radius;
     }
 }
