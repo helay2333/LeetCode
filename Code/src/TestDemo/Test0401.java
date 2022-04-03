@@ -7,7 +7,7 @@ package TestDemo;
  */
 public class Test0401 {
     public static void main(String[] args) {
-        Person1 p = new Person1();
+        Person p = new Person();
         p.age = 12;
         p.name = "小花";
         p.sex = 1;
