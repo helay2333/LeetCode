@@ -22,7 +22,7 @@ interface Fly{
 interface attack{
     public abstract void Attack();
 }
-class Phone implements Fly,attack{
+class Phone implements Fly,attack,CC{
     @Override
     public void fly() {
         System.out.println("起飞");
@@ -37,4 +37,24 @@ class Phone implements Fly,attack{
     public void stop() {
         System.out.println("减速");
     }
+
+    @Override
+    public void method1() {
+
+    }
+    @Override
+    public void method2() {
+
+    }
+}
+
+
+interface AA{
+    void method1();
+}
+interface BB{
+    void method2();
+}
+interface CC extends AA,BB{
+
 }
