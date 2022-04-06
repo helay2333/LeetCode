@@ -4,33 +4,49 @@ package TestDemo;
  * @author 你得写代码
  * @date 2022-04-05 17:54
  */
-class Window11 extends Thread{
-    static private int ticket = 100;//这个得是共同的才可以
-
+//class Window11 extends Thread{
+//    static private int ticket = 100;//这个得是共同的才可以
+//
+//    @Override
+//    public void run() {
+//        Object obj = new Object();
+//        synchronized (obj){
+//            while(true){
+//                if(ticket > 0){
+//                    try {
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    System.out.println(Thread.currentThread().getName()+":卖票，票号为"+ticket);
+//                    ticket --;
+//                }else{
+//                    break;
+//                }
+//            }
+//        }
+//    }
+//}
+class Window22 implements Runnable{
+    private int ticket = 100;
+    Object obj = new Object();//同一把锁
     @Override
     public void run() {
-        while(true){
-            if(ticket > 0){
-                System.out.println(Thread.currentThread().getName()+":卖票，票号为"+ticket);
-                ticket --;
-            }else{
-                break;
+    while (true) {
+        synchronized (obj) {
+        if (ticket > 0) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            System.out.println(Thread.currentThread().getName() + ":卖票，票号为" + ticket);
+            ticket--;
+        } else {
+            break;
         }
     }
 }
-class Window22 implements Runnable{
-    private int ticket = 100;
-    @Override
-    public void run() {
-        while(true){
-            if(ticket > 0){
-                System.out.println(Thread.currentThread().getName()+":卖票，票号为"+ticket);
-                ticket --;
-            }else{
-                break;
-            }
-        }
     }
 }
 public class Test0406_6_windowThread {
