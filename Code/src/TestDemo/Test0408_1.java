@@ -19,7 +19,7 @@ class Season{
         this.seasonName = seasonName;
         this.seasonDesc = seasonDesc;
     }
-    //3提供对外的创建对象方法
+    //3提供对外的创建对象
     public static final Season SPRING = new Season("春天","春暖花开");
     public static final Season SSUMMER = new Season("春天","春暖花开");
     public static final Season AUTUMN = new Season("春天","春暖花开");
