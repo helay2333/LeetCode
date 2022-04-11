@@ -8,13 +8,12 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 /**
  * @author 你得写代码
  * @date 2022-04-10 14:00
  */
-public class Ttest0410_2_IP {
+public class Test0410_2_IP {
     public static void main(String[] args) {
 
         server();
