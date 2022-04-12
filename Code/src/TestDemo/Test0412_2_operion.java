@@ -10,7 +10,7 @@ public class Test0412_2_operion {
     public static void main(String[] args) {
         Girl g = new Girl();
         g = null;
-        Optional<Girl> g1 = Optional.of(g);
+        Optional.of(g);
     }
 }
 
