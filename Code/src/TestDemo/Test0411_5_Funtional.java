@@ -48,3 +48,8 @@ public class Test0411_5_Funtional {
         return filterList;
     }
 }
+
+interface cc{
+
+}
+//class a implements
