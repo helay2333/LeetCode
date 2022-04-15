@@ -6,7 +6,7 @@ package _DS.arrrayList;
  */
 public class ArrayList<E> {
     private E[] element;
-    private int size;
+    protected int size;
     private static final int Default_Capacity = 10;
     public ArrayList(int capacity){
         capacity = (capacity > Default_Capacity ? capacity : Default_Capacity);
