@@ -9,6 +9,7 @@ public class Test0406_11_String {
         //方式一：字面量
         String s1 = "JavaSE";
         String s2 = "JavaSE";
+
         //方式二：构造器:此时保存地址值，是数据在堆空间开辟的空间对应的地址
         String s3 = new String("JavaSE");
         String s4 = new String("JavaSE");
