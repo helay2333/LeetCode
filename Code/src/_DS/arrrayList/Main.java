@@ -1,5 +1,7 @@
 package _DS.arrrayList;
 
+import java.util.LinkedList;
+
 /**
  * @author
  * @date 2022-04-15 08:55
@@ -10,5 +12,6 @@ public class Main {
         arr.add(new Person(12,"aa"));
         arr.clear();
         System.gc();
+//        LinkedList
     }
 }
