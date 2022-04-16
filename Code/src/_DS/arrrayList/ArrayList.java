@@ -69,6 +69,7 @@ public class ArrayList<E> {
             element[i] = null;
         }
         size = 0;
+        element = (E[]) new Object[Default_Capacity];
     }
     public E set(int index, E value){
         if(index < 0 || index >= size){
@@ -95,6 +96,19 @@ public class ArrayList<E> {
         size--;
         element[size] = null;
         return tmp;
+    }
+    //缩容
+    public void trim(){
+        int capacity = element.length;
+        int newCapacity = capacity >> 1;
+        if(size >= newCapacity || capacity <=Default_Capacity) return ;
+        //说明剩余空间很多
+
+        E[] newElements = (E[])new Object[newCapacity];
+        for(int i = 0; i < size; i++){
+            newElements[i] = element[i];
+        }
+        element = newElements;
     }
 
     public String toString(){

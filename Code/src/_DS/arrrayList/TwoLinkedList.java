@@ -1,16 +1,21 @@
-package _DS.LinkedList;
+package _DS.arrrayList;
+
+import _DS.LinkedList.LinkedList;
 
 /**
  * @author Green写代码
- * @date 2022-04-15 15:55
+ * @date 2022-04-16 19:37
  */
-public class LinkedList<E> {
+public class TwoLinkedList<E> {
     private int size;
-    private Node firstNode;
+    private Node<E> firstNode;
+    private Node<E> lastNode;
     private static class Node<E>{
         E element;
         Node<E> next;
-        public Node(E element, Node<E> next){
+        Node<E> pre;
+        public Node(Node<E>pre ,E element, Node<E> next){
+            this.pre = pre;
             this.element = element;
             this.next = next;
         }
@@ -30,6 +35,7 @@ public class LinkedList<E> {
     public void clear(){
         size = 0;
         firstNode = null;
+        lastNode = null;
         //后面的每一条线就自动断开了
     }
     //获取index位置的节点对象
@@ -37,11 +43,19 @@ public class LinkedList<E> {
         if(index < 0 || index >= size){
             throw new IndexOutOfBoundsException("Index:"+index + ",Size:"+size+",下标越界");
         }
-        Node<E> node = firstNode;
-        for(int i = 0; i < index; i++){
-            node = node.next;
+        if(index < (size >> 1)){
+            Node<E> node = firstNode;
+            for(int i = 0; i < index; i++){
+                node = node.next;
+            }
+            return node;
+        }else{
+            Node<E> node = lastNode;
+            for(int i = size - 1; i > index; i--){
+                node = node.pre;
+            }
+            return node;
         }
-        return node;
     }
     public E get(int index){
         if(index < 0 || index >= size){
@@ -49,33 +63,52 @@ public class LinkedList<E> {
         }
         return node(index).element;
     }
-    public void add(int index, E value){
-        if(index == 0){
-            firstNode = new Node<>(value, firstNode);
-        }
-        else{
-            Node<E> pre = node(index - 1);
-            pre.next = new Node<>(value,pre.next);
-        }
-        size++;
-    }
     public E set(int index, E value){
         Node<E> node = node(index);
         E old = node.element;
         node.element = value;
         return old;
     }
+
+    public void add(int index, E value){
+        if(index == size){
+            Node<E> oldLast = lastNode;
+            lastNode = new Node<E>(oldLast, value, null);
+            if(oldLast.next == null){
+                firstNode = lastNode;
+            }else{
+                oldLast.next = lastNode;
+            }
+        }else{
+            Node<E> next = node(index);
+            Node<E> prev = next.pre;
+            Node<E> node = new Node<>(prev, value, next);
+            next.pre = node;
+            if(prev == null){
+                firstNode = node;
+            }else{
+                prev.next = node;
+            }
+        }
+        size++;
+    }
+
     public E remove(int index){
         if(index < 0 || index >= size){
             throw new IndexOutOfBoundsException("Index:"+index + ",Size:"+size+",下标越界");
         }
-        Node<E> node = firstNode;
-        if(index == 0){
-            firstNode = firstNode.next;
+        Node<E> node = node(index);
+        Node<E> pre = node.pre;
+        Node<E> next = node.next;
+        if(pre == null){
+            firstNode = next;
         }else{
-            Node<E> pre = node(index - 1);
-            node = pre.next;
-            pre.next = pre.next.next;
+            pre.next = next;
+        }
+        if(next == null){
+            lastNode = pre;
+        }else{
+            next.pre = pre;
         }
         size--;
         return node.element;
