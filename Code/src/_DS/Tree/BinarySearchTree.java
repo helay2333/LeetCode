@@ -12,9 +12,9 @@ import java.util.Queue;
  * @date 2022-04-17 14:372                                                             52
  */
 public class BinarySearchTree<E> implements BinaryTreeInfo {
-    private int size;
-    private Node<E> root;
-    private java.util.Comparator<E> comparator;
+    protected int size;
+    protected Node<E> root;
+    protected java.util.Comparator<E> comparator;
 
     @Override
     public Object root() {
@@ -36,7 +36,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
         return (((Node<E>)node).element);
     }
 
-    private static class Node<E> {
+    protected static class Node<E> {
         E element;
         Node<E> left;
         Node<E> right;
@@ -46,12 +46,21 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
             this.element = element;
             this.parent = parent;
         }
+        public boolean isLeftChild(){
+            return parent != null && this == parent.left;
+        }
+        public boolean isRightChild(){
+            return parent != null && this == parent.right;
+        }
         public boolean isLeaf(){
             return left == null && right == null;
         }
         public  boolean hasTwoChild(){
             return left != null && right != null;
         }
+    }
+    protected Node<E> createNode(E element, Node<E>parent){
+        return new Node<>(element, parent);
     }
     public BinarySearchTree(){
         this(null);//表示比较器为空
@@ -71,8 +80,9 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
         elementNotNullCheck(element);
         //添加的第一个节点
         if(root == null){
-            root = new Node<>(element, null);
+            root = createNode(element,null);
             size++;
+            afterAdd(root);
             return;
         }
         //添加的不是第一个节点
@@ -94,14 +104,17 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
             }
         }
 
-        Node<E>newNode = new Node<>(element, parent);
+        Node<E>newNode = createNode(element,parent);
         if(cmp > 0){
             parent.right = newNode;
         }else{
             parent.left = newNode;
         }
+        afterAdd(newNode);
         size++;
     }
+
+    protected void afterAdd(Node<E> node){};
     public Node<E> predecessor(Node<E> node){
         if(node == null) return null;
         Node<E> p = node.left;
@@ -351,6 +364,10 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
     }
     public void remove(E element){
         remove(node(element));
+
+    }
+    protected void afterRemove(Node<E> node){
+
     }
 //    public Node<E> predecessor(Node<E> node){
 //        if(node == null) return null;
@@ -376,7 +393,6 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
             return;
         }
         size--;
-
         if(node.hasTwoChild()){
             //找到后记节点
             Node<E> s = postdecessor(node);
@@ -385,6 +401,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
             //删除后继节点
             node = s;
         }
+
         //删除node节点,node的度是1或者0
         Node<E> replacement = node.left != null ? node.left :node.right;
         if(replacement != null){//node是度为1的
@@ -398,13 +415,18 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
             }else{
                 node.parent.right = replacement;
             }
+            //应该在删除节点之后处理
+            afterRemove(node);
         }else if(node.parent == null){//node是叶子系欸但并且是根节点
             root = null;
+            afterRemove(node);
         }else{//Node是叶子节点但不是根节点
             if(node == node.parent.right){
                 node.parent.right = null;
+                afterRemove(node);
             }else{
                 node.parent.left = null;
+                afterRemove(node);
             }
         }
     }
