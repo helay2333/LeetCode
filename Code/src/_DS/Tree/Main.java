@@ -33,20 +33,20 @@ public class Main {
         Integer []data= new Integer[]{
                 7,4,9,2,5,8,11,3,12,1
         };
-        BinarySearchTree<Person1> bbb = new BinarySearchTree<>();
+        BinarySearchTree<Integer> bbb = new BinarySearchTree<>();
         for(int i = 0; i < data.length; i++){
-            bbb.add(new Person1(data[i]));
+            bbb.add(data[i]);
         }
 //        bbb.preorderTraversal();
 //        bbb.inorderTraversal();
 //        bbb.postorderTraversal();
 //        bbb.levelOrderTraversal();
-        bbb.levelOrder(new BinarySearchTree.Visitor<Person1>() {
-            @Override
-            public void visit(Person1 element) {
-                System.out.println(element.age + 1);
-            }
-        });
+//        bbb.levelOrder(new BinarySearchTree.Visitor<Person1>() {
+//            @Override
+//            public void visit(Person1 element) {
+//                System.out.println(element.age + 1);
+//            }
+//        });
 //        BinarySearchTree<Integer>bbb = new BinarySearchTree<>();
 //        for(int i = 0; i < data.length; i++){
 //            bbb.add(data[i]);
@@ -58,5 +58,11 @@ public class Main {
         System.out.println(bbb.height());
         System.out.println(bbb.height2());
         System.out.println(bbb.isComplete());
+        bbb.remove(1);
+        BinaryTrees.println(bbb);
+        bbb.remove(9);
+        BinaryTrees.println(bbb);
+
+
     }
 }

@@ -9,7 +9,7 @@ import java.util.Queue;
 
 /**
  * @author Green写代码
- * @date 2022-04-17 14:37
+ * @date 2022-04-17 14:372                                                             52
  */
 public class BinarySearchTree<E> implements BinaryTreeInfo {
     private int size;
@@ -102,7 +102,45 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
         }
         size++;
     }
+    public Node<E> predecessor(Node<E> node){
+        if(node == null) return null;
+        Node<E> p = node.left;
+        //前去在左子树中
+        if(node.left != null){
+            while(p.right != null){
+                p = p.right;
+            }
+            return p;
+        }
+        //父节点中找
+        while(node.parent != null && node == node.parent.left){
+            node = node.parent;
+        }
+        //node.parent == null
+        //node == node.parent.right
+        return node.parent;
+    }
 
+
+    //是右子树中找左
+    public Node<E> postdecessor(Node<E> node){
+        if(node == null) return null;
+        Node<E> p = node.right;
+        //前去在左子树中
+        if(node.right != null){
+            while(p.left != null){
+                p = p.left;
+            }
+            return p;
+        }
+        //父节点中找
+        while(node.parent != null && node == node.parent.right){
+            node = node.parent;
+        }
+        //node.parent == null
+        //node == node.parent.right
+        return node.parent;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -212,8 +250,34 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
                 }else if(node.left == null && node.right != null){
                     return false;
                 }else{
+                    //后面遍历的都是叶子节点
                     leaf = true;
+                    if(node.left != null){
+                        queue.offer(node.left);
+                    }
                 }
+        }
+        return true;
+    }
+    public boolean isComplete2(){
+        if(root == null) return false;
+        Queue<Node<E>> queue = new LinkedList<>();
+        queue.offer(root);
+        boolean leaf = false;
+        while(!queue.isEmpty()) {
+            Node<E> node = queue.poll();
+            if(leaf && !node.isLeaf()) return false;
+            if(node.left != null){
+                queue.offer(node.left);
+            }else if(node.right != null){
+                return false;
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+            }else{
+                leaf = true;
+                //左空，左不空
+            }
         }
         return true;
     }
@@ -271,13 +335,82 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
     public static interface Visitor<E>{
         void visit(E element);
     }
+    public Node<E> node(E element){
+        Node<E> node = root;
+        while(node != null){
+            int cmp = compare(element, node.element);
+            if(cmp == 0) return node;
+            if(cmp > 0){
+                node = node.right;
+            }else{//cmp < 0
+                node = node.left;
+            }
 
+        }
+        return null;
+    }
     public void remove(E element){
+        remove(node(element));
+    }
+//    public Node<E> predecessor(Node<E> node){
+//        if(node == null) return null;
+//        //前去节点在左子树(left.right.right.right
+//        if(node.left != null){
+//            Node<E> p = node.left;
+//            while(p.right != null){
+//                p = p.right;
+//            }
+//            return p;
+//        }
+//        //从祖父节点中寻找
+//        while(node.parent != null && node == node.parent.left){
+//            node = node.parent;
+//        }
+//        //node.parent == null
+//
+//        //node = node.parent.right
+//        return node.parent;
+//    }
+    public void remove(Node<E> node){
+        if(node == null){
+            return;
+        }
+        size--;
 
+        if(node.hasTwoChild()){
+            //找到后记节点
+            Node<E> s = postdecessor(node);
+            //使用后继节点覆盖度为2的值
+            node.element = s.element;
+            //删除后继节点
+            node = s;
+        }
+        //删除node节点,node的度是1或者0
+        Node<E> replacement = node.left != null ? node.left :node.right;
+        if(replacement != null){//node是度为1的
+            //更改parent
+            replacement.parent = node.parent;
+            //更改parent的let和right指向
+            if(node.parent == null){//node度为1且是根节点
+                root = replacement;
+            }else if(node == node.parent.left){
+                node.parent.left = replacement;
+            }else{
+                node.parent.right = replacement;
+            }
+        }else if(node.parent == null){//node是叶子系欸但并且是根节点
+            root = null;
+        }else{//Node是叶子节点但不是根节点
+            if(node == node.parent.right){
+                node.parent.right = null;
+            }else{
+                node.parent.left = null;
+            }
+        }
     }
 
     public  boolean contains(E element){
-        return false;
+        return node(element) != null;
     }
 
     private void elementNotNullCheck(E element){
