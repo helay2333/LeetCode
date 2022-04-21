@@ -58,6 +58,17 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
         public  boolean hasTwoChild(){
             return left != null && right != null;
         }
+        public Node<E> sibling(){
+            if(isLeftChild()){
+                return parent.right;
+            }
+            if(isRightChild()){
+                return parent.left;
+            }
+
+            return null;
+        }
+
     }
     protected Node<E> createNode(E element, Node<E>parent){
         return new Node<>(element, parent);

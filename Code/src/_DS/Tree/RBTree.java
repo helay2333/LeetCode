@@ -24,6 +24,17 @@ public class RBTree<E> extends BinarySearchTree{
         return color(node, BLACK);
     }
 
+    private boolean colorOf(Node<E> node) {
+        return node == null ? BLACK : ((RBNode<E>) node).color;
+    }
+
+    private boolean isBlack(Node<E> node){
+        return colorOf(node) == BLACK;
+    }
+    private boolean isRed(Node<E> node){
+        return colorOf(node) == RED;
+    }
+
     public RBTree(Comparable<E> comparable){
         super((Comparator) comparable);
     }
