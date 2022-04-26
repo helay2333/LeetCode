@@ -1,6 +1,8 @@
 package TestDemo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -28,5 +30,9 @@ public class bit {
             }
             System.out.println(ans);
         }
+    }
+    public List<List<Integer>> grnerate(int num){
+        ArrayList<List<Integer>> list = new ArrayList<>();
+        return list;
     }
 }
