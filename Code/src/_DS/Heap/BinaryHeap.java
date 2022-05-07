@@ -12,32 +12,18 @@ import java.util.Comparator;
  * 就是一种偏序
  *父节点：floor(i-1)/2
  */
-public class BinaryHeap<E> implements Heap<E>, BinaryTreeInfo {
+public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
     private E[] elements;
-    private int size;
-    private Comparator<E> comparator;
+
     private static final int DEFAULT_CAPACITY = 10;
     public BinaryHeap(Comparator<E> comparator){
-        this.comparator = comparator;
+        super(comparator);
         this.elements = (E[]) new Object[DEFAULT_CAPACITY];
 
     }
     public BinaryHeap(){
         this(null);
     }
-    private int compare(E e1, E e2){
-        return comparator != null ? comparator.compare(e1,e2) :((Comparable<E>)e1).compareTo(e2) ;
-    }
-    @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
     @Override
     public void clear() {
         size = 0;
@@ -83,12 +69,12 @@ public class BinaryHeap<E> implements Heap<E>, BinaryTreeInfo {
         while(index > 0) {
             int pindex = (index - 1) >> 1;
             E p = elements[pindex];//父节点
-            if(compare(e, p ) <= 0){
+            if(compare(e, p) <= 0){
                 //小于等于父节点
                 break;
             }else{
                 //父元素在index位置
-                elements[pindex] = p;
+                elements[index] = p;
                 index = pindex;//重新赋值index
             }
         }
@@ -98,8 +84,9 @@ public class BinaryHeap<E> implements Heap<E>, BinaryTreeInfo {
     public void add(E element) {
         elementNotNullCheck(element);
         addCapcity(size + 1);
-        elements[size++] = element;
-        siftUp(size - 1);
+        elements[size] = element;
+        siftUp(size);
+        size++;
     }
     private void emptyCheck(){
         if(size == 0){
@@ -119,12 +106,50 @@ public class BinaryHeap<E> implements Heap<E>, BinaryTreeInfo {
 
     @Override
     public E remove() {
-        return null;
+        emptyCheck();
+        E root = elements[0];
+        elements[0] = elements[size - 1];
+        elements[size - 1] = null;
+        size--;
+        siftDown(0);
+        return root;
     }
 
+    private void siftDown(int index){
+        E element = elements[index];
+        System.out.println(element);
+        //保证index是非叶子节点才可下溢,<第一个叶子节点的索引
+        while(index < size / 2){
+            //1.只有左子节点
+            //同时左右节点
+            int left = 2 * index + 1;
+            int right = 2 * index + 2;
+            int childIndex = left;
+            if(right < size  && compare(elements[right] , elements[left]) >= 0){
+                childIndex = right;
+            }
+            E child = elements[childIndex];
+            if(compare(element, child) >= 0){
+                break;
+            }
+            elements[index] = child;
+            index = childIndex;
+        }
+        elements[index] = element;
+    }
     @Override
     public E replace(E element) {
-        return null;
+        elementNotNullCheck(element);
+        E root = null;
+        if(size == 0){
+            elements[0] = element;
+            size++;
+        }
+        else{
+            elements[0] = element;
+            siftDown(0);
+        }
+        return root;
     }
 
     @Override
