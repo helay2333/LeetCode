@@ -21,8 +21,35 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
         this.elements = (E[]) new Object[DEFAULT_CAPACITY];
 
     }
-    public BinaryHeap(){
-        this(null);
+    public BinaryHeap() {
+        this((Comparator<E>) null);
+    }
+    public BinaryHeap(E[] elements, Comparator<E> comparator){
+        super(comparator);
+        if(elements == null) {
+            this.elements = (E[]) new Object[DEFAULT_CAPACITY];
+        } else {
+            int capacity = Math.max(elements.length, DEFAULT_CAPACITY);
+            this.elements = (E[])new Object[DEFAULT_CAPACITY];
+            for(int i = 0; i < elements.length; i++){
+                this.elements[i] = elements[i];
+            }
+            heapify();
+        }
+    }
+    //批量建队
+    public void heapify(){
+        //自上而下上滤
+//        for (int i= 1; i < size; i++) {
+//            siftUp(i);
+//        }
+        //自下而上上滤
+        for(int i = (size >> 1) - 1; i >=0; i--) {
+            siftDown(i);
+        }
+    }
+    public BinaryHeap(E[] elements){
+        this(elements, null);
     }
     @Override
     public void clear() {
