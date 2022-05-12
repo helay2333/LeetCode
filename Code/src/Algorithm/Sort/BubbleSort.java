@@ -6,6 +6,11 @@ import java.util.Arrays;
  * @author Green写代码
  * @date 2022-05-10 20:41
  */
+
+/**
+ * 时间复杂度：O(n*n) -> 最坏
+ * 稳定的排序算法
+ */
 public class BubbleSort {
     public static void main(String[] args) {
         int[] arr = new int[]{10, 9, 13, 56, 32, 86 ,23};
